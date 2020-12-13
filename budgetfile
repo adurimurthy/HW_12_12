@@ -1,0 +1,73 @@
+""" This python Script will read a .csv file with budget data. There are two columns in the data file. The first is the date and the second is the profit/losses. The script will parse
+through the file and will sum the number of months for which the profit/loss data exists. The number of dates is used to calculate average of the profit/loss changes
+each of the lines, """
+# Import the pathlib and csv library
+from pathlib import Path
+import csv
+
+csvpath = Path('PyBank/Resources/budget_data.csv')
+
+#Variables
+month_counter = 0
+sum_profit = 0
+sum_profit_change = 0
+with open(csvpath) as csvFile:
+
+        csvReader = csv.reader(csvFile, delimiter=',')
+        next(csvReader, None)
+        # Get data from first line
+        row = next(csvReader,None)
+        max_month = row[0]
+        min_month = row[0]
+        revenue = int(row[1])
+        min_profit = profit
+        max_profit = profit
+        previous_profit = profit
+        month_counter = 1
+        sum_profit = int(row[1])
+        sum_profit_change = 0
+
+        # Read one line at a time
+        for line in csvReader:
+
+            # Increase counter for number of months in entire data
+            month_counter = month_counter + 1
+
+            profit = int(line[1])
+
+           
+            sum_profit = sum_profit + profit
+
+    
+            profit_change = profit - previous_profit
+
+            # Add change in revenue to net change in revenue for data set
+            sum_profit_change = sum_profit_change + profit_change
+
+            # Determine if change in revenue is a max or min for data set thus far
+            if profit_change > max_profit:
+                max_month = line[0]
+                max_profit = profit_change
+
+            if profit_change < min_profit:
+                min_month = line[0]
+                min_profit = profit_change
+
+            previous_profit = profit
+
+        average_profit = sum_profit/month_counter
+        average_profit_change = sum_profit_change/(month_counter-1)
+        sum_revenue = int(profit)
+        average_profit_change = int(average_profit_change)
+        max_profit = int(max_profit)
+        min_profit = int(min_profit)
+        
+        # Print analysis
+        print(f"Financial Analysis: Using PyBank budget data file")
+        print("-------------------------------------------------------")
+        print(f"Total Months: {month_counter}")
+        print(f"Total Profit: {sum_profit} USD")
+        print(f"Average Change: {average_revenue_change} USD")
+        print(f"Greatest Increase in Profits: {max_month} {max_revenue} USD")
+        print(f"Greatest Decrease in Profits: {min_month} {min_revenue} USD")
+        print("End of Report")
